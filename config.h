@@ -189,7 +189,7 @@ static MouseShortcut mshortcuts[] = {
  */
 static const char *openurlcmd[] = {
 	"/bin/sh", "-c",
-	"grep -aoP '(((http|https|ftp|gopher)|mailto)://[^ >\"\\t]*|www\\.[-a-z0-9.]+)[^ .,;\\t>\\x27\">\\):]'"
+	"grep -aoP '(https?|s?ftp)://[^ >\"\\t]*[^ .,;\\t>\\x27\">\\):]'"
 	" | tac | awk '!seen[$0]++'"
 	" | cat -b | tr '\\n\\t' '\\0' | xargs -0 -n2 printf '%d. %s\\n'"
 	" | dmenu -l 9 -w $WINDOWID"
