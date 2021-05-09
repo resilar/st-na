@@ -1557,10 +1557,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 		case 0: /* Blinking Block */
 		case 1: /* Blinking Block (Default) */
 		case 2: /* Steady Block */
-			XftDrawRect(xw.draw, &drawcol,
-					win.wborderpx + cx * win.cw,
-					win.hborderpx + cy * win.ch,
-					win.cw, win.ch);
+			xdrawglyph(g, cx, cy);
 			break;
 		case 3: /* Blinking Underline */
 		case 4: /* Steady Underline */
