@@ -219,7 +219,7 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_c,           clipcopy,       {.i =  0} },
 	{ MODKEY,               XK_v,           clippaste,      {.i =  0} },
 	{ MODKEY,               XK_u,           externalpipe,   {.v = openurlcmd} },
-	{ TERMMOD,              XK_U,           externalpipe,   {.v = openurlcmd} },
+	{ MODKEY,               XK_r,           rotate,         {.i = +13} },
 	/* defaults */
 	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },

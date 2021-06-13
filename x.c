@@ -59,6 +59,7 @@ static void zoom(const Arg *);
 static void zoomabs(const Arg *);
 static void zoomreset(const Arg *);
 static void ttysend(const Arg *);
+static void rotate(const Arg *);
 
 /* config.h for applying patches and the configuration. */
 #include "config.h"
@@ -244,6 +245,8 @@ static int frccap = 0;
 static char *usedfont = NULL;
 static double usedfontsize = 0;
 static double defaultfontsize = 0;
+static int rotn = 0;
+static int rotn_size = ('Z' - 'A') + 1;
 
 static char *opt_class = NULL;
 static char **opt_cmd  = NULL;
@@ -328,6 +331,25 @@ void
 ttysend(const Arg *arg)
 {
 	ttywrite(arg->s, strlen(arg->s), 1);
+}
+
+void
+rotate(const Arg *arg)
+{
+	rotn += arg->i;
+	rotn = (rotn < 0) ? rotn_size - (-rotn % rotn_size) : rotn % rotn_size;
+	redraw();
+}
+
+Rune
+rotated(Rune rune)
+{
+	if ('A' <= rune && rune <= 'Z') {
+		return 'A' + ((rune + rotn - 'A') % rotn_size);
+	} else if ('a' <= rune && rune <= 'z') {
+		return 'a' + ((rune + rotn - 'a') % rotn_size);
+	}
+	return rune;
 }
 
 int
@@ -1252,7 +1274,7 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 
 	for (i = 0, xp = winx, yp = winy + font->ascent; i < len; ++i) {
 		/* Fetch rune and mode for current glyph. */
-		rune = glyphs[i].u;
+		rune = rotated(glyphs[i].u);
 		mode = glyphs[i].mode;
 
 		/* Skip dummy wide-character spacing. */
