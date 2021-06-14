@@ -1483,15 +1483,17 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	if (base.mode & ATTR_INVISIBLE)
 		fg = bg;
 
-	if (selected(x, y)) {
-		if (y == 0) {
-			y1 += win.hborderpx;
-		} else if (y+1 == rows) {
-			y2 -= win.hborderpx;
-		}
-	}
-
 	/* Clean up the region we want to draw to. */
+	if (bg == &dc.col[defaultcs] || bg == &dc.col[defaultrcs]
+				#if 0
+					|| selected(x, y)
+				#endif
+			) {
+		if (x == 0) x1 += win.wborderpx;
+		if (x + chars == cols) x2 -= win.wborderpx;
+		if (y == 0) y1 += win.hborderpx;
+		if (y + 1 == rows) y2 -= win.hborderpx;
+	}
 	xclearbg(bg, x1, y1, x2, y2);
 
 	/* Set the clip region because Xft is sometimes dirty. */
@@ -1502,7 +1504,6 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	r.height = win.ch;
 	r.width = width;
 	XftDrawSetClipRectangles(xw.draw, 0, 0, &r, 1);
-
 
 	/* Render the glyphs. */
 	XftDrawGlyphFontSpec(xw.draw, fg, specs, len);
