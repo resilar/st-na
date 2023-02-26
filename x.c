@@ -783,11 +783,7 @@ xresize(int col, int row)
 	xw.buf = XCreatePixmap(xw.dpy, xw.win, win.w, win.h,
 			DefaultDepth(xw.dpy, xw.scr));
 	XftDrawChange(xw.draw, xw.buf);
-	if (borderpx > 0) {
-		xclearbg(&dc.col[bordercolor], 0, 0, win.w, win.h);
-	} else {
-		xclear(0, 0, win.w, win.h);
-	}
+	xclear(0, 0, win.w, win.h);
 
 	/* resize to new width */
 	xw.specbuf = xrealloc(xw.specbuf, col * sizeof(GlyphFontSpec));
@@ -911,8 +907,8 @@ xhints(void)
 	sizeh->width_inc = win.cw;
 	sizeh->base_height = 2 * win.hborderpx;
 	sizeh->base_width = 2 * win.wborderpx;
-	sizeh->min_height = win.ch + win.hborderpx;
-	sizeh->min_width = win.cw + win.wborderpx;
+	sizeh->min_height = win.ch + 2 * win.hborderpx;
+	sizeh->min_width = win.cw + 2 * win.wborderpx;
 	if (xw.isfixed) {
 		sizeh->flags |= PMaxSize;
 		sizeh->min_width = sizeh->max_width = win.w;
