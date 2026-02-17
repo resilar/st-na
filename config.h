@@ -7,7 +7,8 @@
  */
 static char *font = "mono:pixelsize=15:antialias=true:autohint=true";
 static char *font2[] = {
-	"NotoColorEmoji:pixelsize=15:antialias=true:autohint=true"
+	"NotoColorEmoji:pixelsize=15:antialias=true:autohint=true",
+	"SymbolsNerdFont:pixelsize=15:antialias=true:autohint=true"
 };
 static int borderpx = 0;
 
